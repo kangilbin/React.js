@@ -125,7 +125,7 @@ const id = open ? 'simple-popover' : undefined;
                                     borderBottomLeftRadius: 4,
                                     borderBottomRightRadius: 4,
                                     display: 'block',
-                                    width: '70%',
+                                    width: '70%'
                                 }}></img>
                             </Popover>
                              </Grid>

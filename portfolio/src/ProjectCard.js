@@ -21,8 +21,8 @@ const Item = styled(Paper)(({ theme }) => ({
 const ProjectCard = ({select, tab}) => {
   var pjtLst = [{id:1, tab:"work", path:"img/brif/brif_main.jpg", title:"프리미엄 보고서 서비스", use:[1, 3, 4, 5, 7, 11, 14]}, {id:2, tab:"work", path:"img/empl/empl_main.jpg", title:"직원관리 서비스", use:[1, 3, 4, 5, 7, 11, 14]}, 
                   {id:3, tab:"work", path:"img/menu/menu_main.jpg", title:"전체 메뉴 서비스", use:[1, 3, 4, 5, 7, 11, 14]}, {id:4, tab:"work", path:"img/appSet/setting_main.jpg", title:"앱 설정 서비스", use:[1, 3, 4, 5, 7, 11, 14]}, 
-                  {id:5, tab:"clone", path:"img/air/air_1.jpg", title:"메시먼지 앱", use:[2, 12]}, {id:6, tab:"personal", path:"img/", title:"제목", use:[9, 9]}];
-  const tag = {1:"Java", 2:"Kotlin", 3:"JavaScript", 4:"JQuery", 5:"Jsp", 6:"Spring Boot", 7:"PostgreSQL", 8:"MariaDB", 9:"Spring Boot", 10:"Spring Framework",11:"Jex Framework", 12:"Android Studio", 13:"Git", 14:"SVN"}
+                  {id:5, tab:"clone", path:"img/air/air_main.jpg", title:"메시먼지 앱", use:[2, 12]}, {id:6, tab:"clone", path:"img/todo/todo_main.jpg", title:"Todo List", use:[1, 3, 6, 9]}];
+  const tag = {1:"Java", 2:"Kotlin", 3:"JavaScript", 4:"JQuery", 5:"Jsp", 6:"ReactJS", 7:"PostgreSQL", 8:"MariaDB", 9:"Spring Boot", 10:"Spring Framework",11:"Jex Framework", 12:"Android Studio", 13:"Git", 14:"SVN"}
   const [sltLst] = useState(pjtLst)
 
   const mounted = useRef(false)

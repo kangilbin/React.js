@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination, Autoplay } from "swiper/core";
 import "swiper/css";
 import "swiper/css/pagination";
-import { CardMedia, List, ListItem } from "@mui/material";
+import { CardMedia, Link, List, ListItem } from "@mui/material";
 
 SwiperCore.use([Pagination, Autoplay]);
 
@@ -55,8 +55,9 @@ const OpenProject = ({id, handleClose}) => {
     
     const setImg = ["img/appSet/set_1.jpg", "img/appSet/set_2.jpg", "img/appSet/set_3.jpg", "img/appSet/set_4.jpg", "img/appSet/set_5.jpg"]
 
-    const airImg = ["img/air/air_1.jpg", "img/air/air_2.jpg", "img/air/air_3.jpg", "img/air/air_4.jpg", "img/air/air_5.png", "img/air/air_6.png"]
+    const airImg = ["img/air/air_1.jpg", "img/air/air_main.jpg", "img/air/air_2.jpg", "img/air/air_3.jpg", "img/air/air_4.jpg", "img/air/air_5.png", "img/air/air_6.png"]
 
+    const todoImg = ["img/todo/todo_5.jpg", "img/todo/todo_1.jpg", "img/todo/todo_2.jpg",  "img/todo/todo_main.jpg", "img/todo/todo_3.jpg", "img/todo/todo_4.jpg"]
     var content;
 
     var briefing = (
@@ -244,7 +245,7 @@ const OpenProject = ({id, handleClose}) => {
             <Swiper
                 style={{
                     width: "400px",
-                    height: "760px",
+                    height: "700px",
                     borderRadius: "12px",
                 }}
                 spaceBetween={8}
@@ -265,13 +266,119 @@ const OpenProject = ({id, handleClose}) => {
                     )
                 )}  
             </Swiper>
+            <Typography gutterBottom variant="overline" sx={{ fontWeight: "bold" }}>* 해당 내용은 책을 보고 공부한 클론코딩 입니다.</Typography>
             </DialogContent>
             <DialogActions>
                 <List>
-                    <ListItem><Typography gutterBottom width={400} sx={{ fontWeight: "bold" }}>◆ 앱 설정 서비스 ◆</Typography></ListItem>
-                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- 공동인증서 관리 개발</Typography></ListItem>
-                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- 매출/지출 용도 설정 개발</Typography></ListItem>
-                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- 알림 설정 개발</Typography></ListItem>
+                    <ListItem><Typography gutterBottom width={400} sx={{ fontWeight: "bold" }}>◆ 미세먼지 앱 ◆</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>구글 API를 활용하여 위도와 경도를 가져와 미세먼지 농도를<br/> 측정하는 서비스 입니다.</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- Notion ▶ &nbsp;</Typography>
+                    <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => {
+                                document.location.href='https://river-wool-113.notion.site/API-a4819e90341b49b789a56a7aa2611edc'
+                              }}
+                              color="secondary"
+                            >{'구글 API'}
+                    </Link> &nbsp;&nbsp;
+                    <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => {
+                                document.location.href='https://river-wool-113.notion.site/AdMob-9a8e76acfcfc45f1b137b58cea3b280e'
+                              }}
+                              color="secondary"
+                            > &nbsp;{'AdMob 광고'}
+                    </Link> &nbsp;&nbsp;
+                    <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => {
+                                document.location.href='https://river-wool-113.notion.site/13cf676a861043f4b2ad0f0844ecefa7'
+                              }}
+                              color="secondary"
+                            > {'앱 배포'}
+                    </Link> 
+                    </ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- 구글 API 사용하여 위도/경도 및 지도 줌인/아웃 활용</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- 레트로핏을 이용한 HTTP 통신</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- 구글 애드몹 통한 광고 사용</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- 앱 출시 방법</Typography></ListItem>
+                </List>
+            </DialogActions>
+        </div>
+    )
+
+    var todo = (
+        <div>
+            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} sx={{fontWeight: "bold"}}>
+                Todo List
+            </BootstrapDialogTitle>
+            <DialogContent dividers>
+            <Swiper
+                style={{
+                    width: "370px",
+                    height: "550px",
+                    borderRadius: "12px",
+                }}
+                spaceBetween={8}
+                initialSlide={0}
+                centeredSlides={true}
+                pagination={{
+                    clickable: true,
+                }}
+                autoplay={{ delay: 3000 }}
+                >
+                {todoImg.map(rec => (
+                    <SwiperSlide>
+                        <CardMedia
+                            component="img"
+                            image={ rec }
+                            />
+                    </SwiperSlide>
+                    )
+                )}  
+            </Swiper>
+            <Typography gutterBottom variant="overline" sx={{ fontWeight: "bold" }}>* 해당 내용은 책을 보고 공부한 클론코딩 입니다.</Typography>
+            </DialogContent>
+            <DialogActions>
+                <List>
+                    <ListItem><Typography gutterBottom width={400} sx={{ fontWeight: "bold" }}>◆ Todo List ◆</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>스프링 부트를 사용한 백엔드를 구축하고, 프론트엔드는 React로 구현하여 <br/>RESTful API 통신 방법으로 데이터를 주고받는 Todo List 서비스 입니다.</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- Notion ▶ &nbsp;</Typography>
+                    <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => {
+                                document.location.href='https://river-wool-113.notion.site/REST-API-252dbfff14ec4ca0939cd9af81be5be6'
+                              }}
+                              color="secondary"
+                            >{'RESTful API'}
+                    </Link>&nbsp;&nbsp;
+                    <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => {
+                                document.location.href='https://river-wool-113.notion.site/REST-Security-ab34319132ea48a3bae6b035018a5522'
+                              }}
+                              color="secondary"
+                            >{'REST Security'}
+                    </Link>&nbsp;&nbsp;
+                    <Link
+                            component="button"
+                            variant="body2"
+                            onClick={() => {
+                                document.location.href='https://river-wool-113.notion.site/fetch-API-d458e2c053c04392a091a6f012480d9b'
+                              }}
+                              color="secondary"
+                            >{'fetch API(벡엔드 통신)'}
+                    </Link> 
+                    </ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- 스프링 부트를 사용한 백엔드 구현</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- RESTful API 통신 방법 활용</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- REST Security, Spring Security 활용한 인증 구현</Typography></ListItem>
+                    <ListItem><Typography gutterBottom variant="body2" sx={{ fontWeight: "bold" }}>- ReatJS 사용한 프론트엔드 구현</Typography></ListItem>
                 </List>
             </DialogActions>
         </div>
@@ -285,7 +392,10 @@ const OpenProject = ({id, handleClose}) => {
             break
         case 4: content = appSet
             break
-            case 5: content = air
+        case 5: content = air
+            break
+        case 6: content = todo
+            break
         default :
             break
         

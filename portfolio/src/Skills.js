@@ -4,7 +4,7 @@ import Chip from '@mui/material/Chip';
 
 const Skills = ({select, setSelect}) => {
   const lst = [{ id:1, name : "Java"}, { id:2, name : "Kotlin"}, { id:3, name : "JavaScript"}, {id:4, name:"JQuery"},
-                { id:5, name : "Jsp"}, { id:6, name : "React"}, { id:7, name : "PostgreSQL"}, { id:8, name : "MariaDB"}, 
+                { id:5, name : "Jsp"}, { id:6, name : "ReactJS"}, { id:7, name : "PostgreSQL"}, { id:8, name : "MariaDB"}, 
                 { id:9, name : "Spring Boot"}, { id:10, name : "Spring Framework"}, { id:11, name : "Jex Framework"}, 
                 { id:12, name : "Android Studio"}, { id:13, name : "Git"}, { id:14, name : "SVN"}]
 
