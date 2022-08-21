@@ -46,6 +46,13 @@ const GlobalStyle = createGlobalStyle`
     border-collapse: collapse;
     border-spacing: 0;
   }
+  * {
+    box-sizing: border-box;
+  }
+  a {
+    text-decoration:none;
+    color: inherit
+  }
   body {
     line-height: 1;
     font-family: 'Source Sans Pro', sans-serif;
