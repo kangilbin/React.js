@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
-import reset from "styled-reset";
 
 const GlobalStyle = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -51,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
   }
   a {
     text-decoration:none;
-    color: inherit
+    color: inherit;
   }
   body {
     line-height: 1;
