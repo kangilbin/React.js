@@ -1,4 +1,4 @@
-const BASE_URL = `https://api.coinpaprika.com/v1/`;
+const BASE_URL = `https://api.coinpaprika.com/v1`;
 
 export async function fetcherCoins() {
   return fetch(`${BASE_URL}/coins`).then((response) => response.json());
@@ -6,6 +6,12 @@ export async function fetcherCoins() {
 
 export function fetchCoinInfo(coinId: string) {
   return fetch(`${BASE_URL}/coins/${coinId}`).then((response) =>
+    response.json()
+  );
+}
+
+export function fetchCoinTickers(coinId: string) {
+  return fetch(`${BASE_URL}/tickers/${coinId}`).then((response) =>
     response.json()
   );
 }
