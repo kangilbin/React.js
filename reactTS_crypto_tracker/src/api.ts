@@ -15,3 +15,11 @@ export function fetchCoinTickers(coinId: string) {
     response.json()
   );
 }
+
+export function fetchCoinHistory(coinId: string) {
+  const endDate = Math.floor(Date.now() / 1000);
+  const starDate = endDate;
+  return fetch(`${BASE_URL}/coins/${coinId}/ohlcv/historical`).then(
+    (response) => response.json()
+  );
+}
