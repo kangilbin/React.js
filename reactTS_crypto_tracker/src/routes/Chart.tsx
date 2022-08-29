@@ -31,7 +31,6 @@ function Chart() {
           type="line"
           series={[
             { name: "Price", data: data?.map((price) => price.close) ?? [] },
-            { name: "data2", data: [15, 18, 15, 78, 56, 16] },
           ]}
           options={{
             theme: { mode: "dark" },
@@ -48,6 +47,16 @@ function Chart() {
               labels: { show: false },
               axisTicks: { show: false },
               axisBorder: { show: false },
+              categories: data?.map((price) => price.time_close) ?? [],
+              type: "datetime",
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+            },
+            colors: ["#0fbcf9"],
+            tooltip: {
+              y: { formatter: (value) => `$ ${value.toFixed(2)}` },
             },
           }}
         />
