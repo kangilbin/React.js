@@ -138,7 +138,6 @@ interface RouteParams {
 }
 
 function Coin() {
-  // const { coinId } = useParams();
   const { coinId } = useParams<keyof RouteParams>() as RouteParams;
   const { state } = useLocation() as RouteProps;
   const priceMatch = useMatch("/:coinId/price");
@@ -194,7 +193,7 @@ function Coin() {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Outlet context={{ coinId: coinId }} />
+          <Outlet context={{ coinId: coinId, quotes: tickersData?.quotes }} />
         </>
       )}
     </Container>

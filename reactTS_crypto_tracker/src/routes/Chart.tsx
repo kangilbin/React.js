@@ -27,39 +27,83 @@ function Chart() {
       {isLoading ? (
         "Loading chart..."
       ) : (
-        <ApexChart
-          type="line"
-          series={[
-            { name: "Price", data: data?.map((price) => price.close) ?? [] },
-          ]}
-          options={{
-            theme: { mode: "dark" },
-            chart: {
-              height: 300,
-              width: 500,
-              toolbar: { show: false },
-              background: "transparent",
-            },
-            stroke: { curve: "smooth", width: 4 },
-            grid: { show: false },
-            yaxis: { show: false },
-            xaxis: {
-              labels: { show: false },
-              axisTicks: { show: false },
-              axisBorder: { show: false },
-              categories: data?.map((price) => price.time_close) ?? [],
-              type: "datetime",
-            },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
-            },
-            colors: ["#0fbcf9"],
-            tooltip: {
-              y: { formatter: (value) => `$ ${value.toFixed(2)}` },
-            },
-          }}
-        />
+        <>
+          <ApexChart
+            type="candlestick"
+            series={[
+              {
+                data:
+                  data?.map((price) => ({
+                    x: price.time_close,
+                    y: [price.open, price.high, price.low, price.close],
+                  })) ?? [],
+              },
+            ]}
+            width="100%"
+            height="200px"
+            options={{
+              noData: {
+                text: "",
+              },
+              plotOptions: {
+                candlestick: {
+                  colors: {
+                    upward: "blue",
+                    downward: "red",
+                  },
+                  wick: {
+                    useFillColor: true,
+                  },
+                },
+              },
+              fill: {
+                opacity: 0,
+              },
+              theme: {
+                mode: "dark",
+              },
+              chart: {
+                toolbar: {
+                  show: false,
+                },
+                background: "transparent",
+                fontFamily: '"Pretendard", sans-serif',
+              },
+              grid: {
+                show: false,
+              },
+              tooltip: {
+                y: {
+                  formatter: (value) => `$${value.toFixed(2)}`,
+                },
+              },
+              xaxis: {
+                labels: {
+                  show: false,
+                },
+                type: "datetime",
+                categories: data?.map((price) => price.time_close),
+                axisTicks: {
+                  show: false,
+                },
+                axisBorder: {
+                  show: false,
+                },
+                tooltip: {
+                  enabled: false,
+                },
+              },
+              yaxis: {
+                labels: {
+                  show: false,
+                },
+              },
+              stroke: {
+                width: 2,
+              },
+            }}
+          />
+        </>
       )}
     </div>
   );
