@@ -1,7 +1,9 @@
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { fetcherCoins } from "../api";
+import { isDarkAtom } from "./../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -19,8 +21,9 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
+  border: 1px solid white;
   margin-bottom: 10px;
   padding: 20px;
   border-radius: 15px;
@@ -65,12 +68,14 @@ const Img = styled.img`
 `;
 
 function Coins() {
+  const setterFn = useSetRecoilState(isDarkAtom);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetcherCoins);
 
   return (
     <Container>
       <Header>
         <Title>코인</Title>
+        <button onClick={() => setterFn((prev) => !prev)}>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
