@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
 import { BsClipboardPlus, BsTrash } from "react-icons/bs";
+import { useForm } from "react-hook-form";
 
 const Wrapper = styled.div`
   display: grid;
@@ -24,7 +25,6 @@ const Boards = styled.div`
 const Trash = styled.div``;
 const Left = styled.div`
   display: flex;
-  justify-content: flex-start;
 `;
 const Right = styled.div`
   display: flex;
@@ -32,14 +32,24 @@ const Right = styled.div`
 `;
 const Top = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
 `;
+const Form = styled.form``;
+interface IForm {
+  board: string;
+}
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const addBoard = () => {};
+  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const onValid = ({ board }: IForm) => {
+    console.log(board);
+    setToDos((allBoards) => {
+      return { ...allBoards, [board]: [] };
+    });
+    setValue("board", "");
+  };
   const onDragEnd = (info: DropResult) => {
-    console.log(info);
     const { destination, source } = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
@@ -90,10 +100,14 @@ function App() {
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
         <Top>
-          <input type="text" />
-          <Left onClick={addBoard}>
-            <BsClipboardPlus size="50" />
-          </Left>
+          <Form onSubmit={handleSubmit(onValid)}>
+            <Left>
+              <input {...register("board", { required: true })} type="text" />
+              <button>
+                <BsClipboardPlus size="50" />
+              </button>
+            </Left>
+          </Form>
           <Right>
             <Droppable droppableId="trash">
               {(provided) => (
