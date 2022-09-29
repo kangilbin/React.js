@@ -5,7 +5,7 @@ import App from "./App";
 import { theme } from "./theme";
 import { createGlobalStyle } from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
-const queryClient = new QueryClient();
+
 const GlobalStyle = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
     v2.0 | 20110126
@@ -58,15 +58,18 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
   body {
-    line-height: 1.2;
+    font-weight: 300;
     font-family: 'Source Sans Pro', sans-serif;
-    color:black
+    color:${(props) => props.theme.white.darker};
+    line-height:1.2;
+    background-color: black;
   }
 `;
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-
 root.render(
   <RecoilRoot>
     <QueryClientProvider client={queryClient}>
