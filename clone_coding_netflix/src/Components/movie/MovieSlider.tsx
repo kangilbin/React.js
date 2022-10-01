@@ -1,9 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { AnimatePresence, motion, useScroll } from "framer-motion";
-import { IGetMoviesResult } from "../../api";
-import { useMatch, useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { IGetMoviesResult } from "../../Apis/movieApi";
+import { useNavigate } from "react-router-dom";
 import { makeImagePath } from "../../Routes/utils";
+import MovieDetail from "./MovieDetail";
+import { useRecoilValue } from "recoil";
 
 const Slider = styled(motion.div)`
   position: relative;
@@ -39,67 +41,52 @@ const Info = styled(motion.div)`
   background-color: ${(props) => props.theme.black.lighter};
   opacity: 0;
   position: absolute;
-  width: 100%;
   bottom: 0;
+  width: 100%;
   h4 {
     text-align: center;
     font-size: 18px;
   }
 `;
 
-const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  background: rgba(0, 0, 0, 0.5);
+const BoxCtrl = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
-const BigMovie = styled(motion.div)`
-  position: absolute;
-  width: 40vw;
-  height: 80vh;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  border-radius: 15px;
-  overflow: hidden;
-  background-color: ${(props) => props.theme.black.lighter};
+const Prev = styled.h1`
+  justify-content: left;
+  margin: 10px 10px;
+  font-size: 20px;
+  cursor: pointer;
 `;
 
-const BigCover = styled.div`
-  background-size: cover;
-  background-position: center center;
-  width: 100%;
-  height: 400px;
+const Next = styled.h1`
+  justify-content: right;
+  margin: 10px 10px;
+  font-size: 20px;
+  cursor: pointer;
 `;
 
-const BigTitle = styled.h3`
-  color: ${(props) => props.theme.white.lighter};
-  padding: 20px;
-  font-size: 46px;
-  position: relative;
-  top: -80px;
+const MovieTitle = styled.div`
+  font-size: 30px;
+  font-weight: bold;
 `;
 
-const BigOverview = styled.p`
-  padding: 20px;
-  color: ${(props) => props.theme.white.lighter};
-  position: relative;
-  top: -80px;
-`;
+interface IBack {
+  isBack: boolean;
+}
 
 const rowVariants = {
-  hidden: {
+  hidden: ({ isBack }: IBack) => ({
     // 사용자 윈도우 화면 넓이
-    x: window.outerWidth + 5,
-  },
+    x: isBack ? window.outerWidth + 5 : -window.outerWidth - 5,
+  }),
   visible: { x: 0 },
-  exit: {
+  exit: ({ isBack }: IBack) => ({
     // Row에 gap을 주기 위해 -5 추가
-    x: -window.outerWidth - 5,
-  },
+    x: isBack ? -window.outerWidth - 5 : window.outerWidth + 5,
+  }),
 };
 
 const boxVariants = {
@@ -134,14 +121,16 @@ const offset = 6;
 function MovieSlider({ data }: IProps) {
   const [leaving, setLeaving] = useState(false);
   const [index, setIndex] = useState(0);
+  const [isBack, setIsBack] = useState(false);
   // useHistory Hook을 사용하면 url를 왔다갔다 할 수 있다.
   const navigate = useNavigate();
-  const bigMovieMatch = useMatch("/movies/:movieId");
+
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const increaseIndex = () => {
     if (data) {
       if (leaving) return;
       toggleLeaving();
+      setIsBack(true);
       const totalMovies = data?.results.length;
       const maxIndex = Math.floor(totalMovies / offset) - 1;
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
@@ -151,6 +140,7 @@ function MovieSlider({ data }: IProps) {
     if (data) {
       if (leaving) return;
       toggleLeaving();
+      setIsBack(false);
       const totalMovies = data?.results.length;
       const maxIndex = Math.floor(totalMovies / offset) - 1;
       setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
@@ -159,39 +149,22 @@ function MovieSlider({ data }: IProps) {
   const onBoxClicked = (movieId: number) => {
     navigate(`/movies/${movieId}`);
   };
-  const onOverlayClick = () => {
-    navigate(-1);
-  };
-  // 사용자 위치 감지
-  const { scrollY } = useScroll();
-  const clickedMovie =
-    bigMovieMatch?.params.movieId &&
-    data?.results.find(
-      (movie) => String(movie.id) === bigMovieMatch.params.movieId
-    );
+
   return (
     <>
       <Slider>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h1
-            style={{
-              justifyItems: "left",
-              margin: "10px 10px",
-              fontSize: "15px",
-            }}
-            onClick={decreaseIndex}
-          >
-            prev
-          </h1>
-          <h1
-            style={{ justifyItems: "right", margin: "10px 10px" }}
-            onClick={increaseIndex}
-          >
-            next
-          </h1>
-        </div>
-        <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+        <BoxCtrl>
+          <Prev onClick={decreaseIndex}>prev</Prev>
+          <MovieTitle>상영중인 영화</MovieTitle>
+          <Next onClick={increaseIndex}>next</Next>
+        </BoxCtrl>
+        <AnimatePresence
+          initial={false}
+          onExitComplete={toggleLeaving}
+          custom={{ isBack }}
+        >
           <Row
+            custom={{ isBack }}
             variants={rowVariants}
             initial="hidden"
             animate="visible"
@@ -221,36 +194,7 @@ function MovieSlider({ data }: IProps) {
           </Row>
         </AnimatePresence>
       </Slider>
-      <AnimatePresence>
-        {bigMovieMatch && (
-          <>
-            <Overlay
-              onClick={onOverlayClick}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-            <BigMovie
-              style={{ top: scrollY.get() + 100 }}
-              layoutId={bigMovieMatch.params.movieId}
-            >
-              {clickedMovie && (
-                <>
-                  <BigCover
-                    style={{
-                      backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                        clickedMovie.backdrop_path,
-                        "w500"
-                      )})`,
-                    }}
-                  ></BigCover>
-                  <BigTitle>{clickedMovie.title}</BigTitle>
-                  <BigOverview>{clickedMovie.overview}</BigOverview>
-                </>
-              )}
-            </BigMovie>
-          </>
-        )}
-      </AnimatePresence>
+      <MovieDetail data={data} />
     </>
   );
 }

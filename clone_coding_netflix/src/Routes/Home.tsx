@@ -1,4 +1,4 @@
-import { getMovies, IGetMoviesResult } from "./../api";
+import { getMovies, IGetMoviesResult } from "../Apis/movieApi";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { makeImagePath } from "./utils";
@@ -43,7 +43,6 @@ function Home() {
     ["movies", "nowPlaying"],
     getMovies
   );
-
   return (
     <Wrapper>
       {isLoading ? (

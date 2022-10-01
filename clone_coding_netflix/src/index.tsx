@@ -1,11 +1,10 @@
 import ReactDOM from "react-dom/client";
-import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import App from "./App";
 import { theme } from "./theme";
 import { createGlobalStyle } from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
-
+import { ReactQueryDevtools } from "react-query/devtools";
 const GlobalStyle = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
     v2.0 | 20110126
@@ -71,12 +70,11 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <RecoilRoot>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <App />
-      </ThemeProvider>
-    </QueryClientProvider>
-  </RecoilRoot>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <App />
+      <ReactQueryDevtools initialIsOpen={true} />
+    </ThemeProvider>
+  </QueryClientProvider>
 );
