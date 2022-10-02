@@ -155,7 +155,9 @@ function Header() {
         </Logo>
         <Items>
           <Item>
-            <Link to="/">Home {homeMatch && <Circle layoutId="circle" />}</Link>
+            <Link to="/">
+              Movie Shows {homeMatch && <Circle layoutId="circle" />}
+            </Link>
           </Item>
           <Item>
             <Link to="/tv">

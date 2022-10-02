@@ -1,12 +1,27 @@
-import { getMovies, IGetMoviesResult } from "../Apis/movieApi";
+import {
+  getMovies,
+  geTopMovie,
+  getUpComing,
+  IGetMoviesResult,
+} from "../Apis/movieApi";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { makeImagePath } from "./utils";
+import { Categories, makeImagePath } from "./utils";
 import MovieSlider from "../Components/movie/MovieSlider";
+import MovieDetail from "../Components/movie/MovieDetail";
+import { useRecoilValue } from "recoil";
+import { isMovieAtom } from "../atoms";
 
 const Wrapper = styled.div`
   background-color: black;
   height: 200vh;
+`;
+
+const Slides = styled.div`
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
+  height: 50%;
 `;
 
 const Loader = styled.div`
@@ -39,21 +54,42 @@ const Overview = styled.p`
 `;
 
 function Home() {
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
+  const { data: nowData, isLoading: nowLoading } = useQuery<IGetMoviesResult>(
     ["movies", "nowPlaying"],
     getMovies
   );
+  const { data: topData, isLoading: topLoading } = useQuery<IGetMoviesResult>(
+    ["movies", "topPlaying"],
+    geTopMovie
+  );
+  const { data: upComingData, isLoading: upLoading } =
+    useQuery<IGetMoviesResult>(["movies", "upComingPlaying"], getUpComing);
+
+  const isMovie = useRecoilValue(isMovieAtom);
   return (
     <Wrapper>
-      {isLoading ? (
+      {nowLoading && topLoading && upLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
-            <Title>{data?.results[0].title}</Title>
-            <Overview>{data?.results[0].overview}</Overview>
+          <Banner
+            bgPhoto={makeImagePath(nowData?.results[0].backdrop_path || "")}
+          >
+            <Title>{nowData?.results[0].title}</Title>
+            <Overview>{nowData?.results[0].overview}</Overview>
           </Banner>
-          <MovieSlider data={data} />
+          <Slides>
+            <MovieSlider
+              data={nowData}
+              title={Categories["Movie Now Playing"]}
+            />
+            <MovieSlider data={topData} title={Categories["Movie Top Rated"]} />
+            <MovieSlider
+              data={upComingData}
+              title={Categories["Movie Upcoming"]}
+            />
+          </Slides>
+          <MovieDetail data={isMovie} />
         </>
       )}
     </Wrapper>

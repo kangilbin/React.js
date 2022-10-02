@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
-import { IGetMoviesResult } from "../../Apis/movieApi";
 import { useNavigate } from "react-router-dom";
 import { Categories, makeImagePath } from "../../Routes/utils";
 import { useSetRecoilState } from "recoil";
-import { isMovieAtom } from "../../atoms";
+import { isTvAtom } from "../../atoms";
+import { IGetTvResult } from "../../Apis/tvApi";
 
 const Slider = styled(motion.div)`
   position: relative;
@@ -115,14 +115,15 @@ const infoVariants = {
 };
 interface IProps {
   title: number;
-  data?: IGetMoviesResult;
+  data?: IGetTvResult;
 }
 const offset = 6;
 
-function MovieSlider({ data, title }: IProps) {
+function TvSlider({ data, title }: IProps) {
   const [leaving, setLeaving] = useState(false);
   const [index, setIndex] = useState(0);
   const [isBack, setIsBack] = useState(false);
+  const setMovie = useSetRecoilState(isTvAtom);
 
   // useHistory Hook을 사용하면 url를 왔다갔다 할 수 있다.
   const navigate = useNavigate();
@@ -150,9 +151,9 @@ function MovieSlider({ data, title }: IProps) {
   };
   const onBoxClicked = (movieId: number) => {
     setMovie(data);
-    navigate(`/movies/${title}/${movieId}`);
+    navigate(`/tv/${title}/${movieId}`);
   };
-  const setMovie = useSetRecoilState(isMovieAtom);
+
   return (
     <>
       <Slider>
@@ -189,7 +190,7 @@ function MovieSlider({ data, title }: IProps) {
                   bgphoto={makeImagePath(movie.backdrop_path, "w500")}
                 >
                   <Info variants={infoVariants}>
-                    <h4>{movie.title}</h4>
+                    <h4>{movie.original_name}</h4>
                   </Info>
                 </Box>
               ))}
@@ -199,4 +200,4 @@ function MovieSlider({ data, title }: IProps) {
     </>
   );
 }
-export default MovieSlider;
+export default TvSlider;

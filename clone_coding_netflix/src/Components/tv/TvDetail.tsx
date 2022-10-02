@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { IGetMoviesResult } from "../../Apis/movieApi";
+import { IGetTvResult } from "../../Apis/tvApi";
 import { makeImagePath } from "../../Routes/utils";
 
 const Overlay = styled(motion.div)`
@@ -47,22 +47,21 @@ const BigOverview = styled.p`
   top: -80px;
 `;
 interface IProps {
-  data?: IGetMoviesResult;
+  data?: IGetTvResult;
 }
 
-function MovieDetail({ data }: IProps) {
+function TvDetail({ data }: IProps) {
   const navigate = useNavigate();
   const onOverlayClick = () => {
     navigate(-1);
   };
-
-  const bigMovieMatch = useMatch("/movies/:title/:movieId");
+  const bigMovieMatch = useMatch("/tv/:title/:tvId");
   // 사용자 위치 감지
   const { scrollY } = useScroll();
   const clickedMovie =
-    bigMovieMatch?.params.movieId &&
+    bigMovieMatch?.params.tvId &&
     data?.results.find(
-      (movie) => String(movie.id) === bigMovieMatch.params.movieId
+      (movie) => String(movie.id) === bigMovieMatch.params.tvId
     );
   return (
     <AnimatePresence>
@@ -76,7 +75,7 @@ function MovieDetail({ data }: IProps) {
           <BigMovie
             style={{ top: scrollY.get() + 100 }}
             layoutId={
-              bigMovieMatch.params.movieId + "" + bigMovieMatch.params.title
+              bigMovieMatch.params.tvId + "" + bigMovieMatch.params.title
             }
           >
             {clickedMovie && (
@@ -89,9 +88,9 @@ function MovieDetail({ data }: IProps) {
                     )})`,
                   }}
                 ></BigCover>
-                <BigTitle>{clickedMovie.title}</BigTitle>
+                <BigTitle>{clickedMovie.original_name}</BigTitle>
                 <BigOverview>
-                  {clickedMovie.overview || "등록된 내용이 없습니다."}
+                  {clickedMovie.overview || "( 등록된 내용이 없습니다. )"}
                 </BigOverview>
               </div>
             )}
@@ -101,4 +100,4 @@ function MovieDetail({ data }: IProps) {
     </AnimatePresence>
   );
 }
-export default MovieDetail;
+export default TvDetail;

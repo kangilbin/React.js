@@ -5,6 +5,7 @@ import { theme } from "./theme";
 import { createGlobalStyle } from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { RecoilRoot } from "recoil";
 const GlobalStyle = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
     v2.0 | 20110126
@@ -73,7 +74,9 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <App />
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
       <ReactQueryDevtools initialIsOpen={true} />
     </ThemeProvider>
   </QueryClientProvider>
