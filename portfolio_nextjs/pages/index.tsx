@@ -53,17 +53,31 @@ const variantBox = {
     },
   }),
 };
+const offset = 4;
 
 const Home = () => {
-  const [visible, setVisible] = useState(1);
   const [isBack, setIsBack] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
+
+  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; // 임의 데이터
+
+  const toggleLeaving = () => setLeaving((prev) => !prev);
   const nextPlease = () => {
+    if (leaving) return;
+    toggleLeaving();
     setIsBack(false);
-    setVisible((prev) => (prev === 10 ? 10 : prev + 1));
+    const totalMovies = data.length;
+    const maxIndex = Math.floor(totalMovies / offset) - 1;
+    setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
   };
   const prevPlease = () => {
+    if (leaving) return;
+    toggleLeaving();
     setIsBack(true);
-    setVisible((prev) => (prev === 1 ? 1 : prev - 1));
+    const totalMovies = data.length;
+    const maxIndex = Math.floor(totalMovies / offset) - 1;
+    setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
   };
   return (
     <>
@@ -72,20 +86,31 @@ const Home = () => {
         <Grid>자기소개</Grid>
         <Grid>
           <BigBox>
-            <AnimatePresence custom={{ isBack }}>
-              <Box
-                custom={{ isBack }}
-                variants={variantBox}
-                initial="entry"
-                animate="center"
-                exit="exit"
-                key={visible}
-              />
+            <AnimatePresence
+              initial={false}
+              custom={{ isBack }}
+              onExitComplete={toggleLeaving}
+            >
+              {data
+                .slice(offset * index, offset * index + offset)
+                .map((pjt, idx) => (
+                  <Box
+                    custom={{ isBack }}
+                    layoutId="card"
+                    variants={variantBox}
+                    initial="entry"
+                    animate="center"
+                    exit="exit"
+                    key={idx}
+                  >
+                    {pjt}
+                  </Box>
+                ))}
             </AnimatePresence>
           </BigBox>
-          <button onClick={nextPlease}>next</button>
-          <button onClick={prevPlease}>prev</button>
         </Grid>
+        <button onClick={prevPlease}>prev</button>
+        <button onClick={nextPlease}>next</button>
       </Container>
     </>
   );
