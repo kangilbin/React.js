@@ -67,7 +67,7 @@ const ProjectCard = ({ select, tab }) => {
       tab: "clone",
       path: "img/tracker/tracker_01.png",
       title: "비트코인",
-      use: [1, 3, 6, 9],
+      use: [3, 6],
     },
   ];
   const tag = {

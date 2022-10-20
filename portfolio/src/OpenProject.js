@@ -155,8 +155,8 @@ const OpenProject = ({ id, handleClose }) => {
       <DialogActions>
         <List>
           <ListItem>
-            <Typography gutterBottom sx={{ fontWeight: "bold" }}>
-              ◆ 소상공인들의 매출/지출 현황을 알려주기 위한 서비스 ◆
+            <Typography gutterBottom width={400} sx={{ fontWeight: "bold" }}>
+              ◆ 실시간 암호화폐 서비스 ◆
             </Typography>
           </ListItem>
           <ListItem>
@@ -165,7 +165,8 @@ const OpenProject = ({ id, handleClose }) => {
               variant="body2"
               sx={{ fontWeight: "bold" }}
             >
-              - 하루/한주/한달/한해 보고서 개발
+              [노마드코더 강의] React 마스터클래스 암호화폐 API 정보를 가져와
+              실시간 금액, 차트를 보여주는 서비스 입니다.
             </Typography>
           </ListItem>
           <ListItem>
@@ -174,7 +175,27 @@ const OpenProject = ({ id, handleClose }) => {
               variant="body2"
               sx={{ fontWeight: "bold" }}
             >
-              - 사업장 전환 개발
+              - Source Code ▶ &nbsp;
+            </Typography>
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => {
+                document.location.href =
+                  "https://github.com/kangilbin/React.js/tree/master/reactTS_crypto_tracker";
+              }}
+              color="secondary"
+            >
+              {"Git"}
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Typography
+              gutterBottom
+              variant="body2"
+              sx={{ fontWeight: "bold" }}
+            >
+              - React Query를 이용한 API 통신
             </Typography>
           </ListItem>
           <ListItem>
@@ -183,7 +204,7 @@ const OpenProject = ({ id, handleClose }) => {
               variant="body2"
               sx={{ fontWeight: "bold" }}
             >
-              - 목표 매출 달성량 개발
+              - ApexChart.JS로 차트 구현
             </Typography>
           </ListItem>
           <ListItem>
@@ -192,7 +213,7 @@ const OpenProject = ({ id, handleClose }) => {
               variant="body2"
               sx={{ fontWeight: "bold" }}
             >
-              - 세무사 진단표 개발
+              - Recoil 상태 관리
             </Typography>
           </ListItem>
           <ListItem>
@@ -201,16 +222,7 @@ const OpenProject = ({ id, handleClose }) => {
               variant="body2"
               sx={{ fontWeight: "bold" }}
             >
-              - 사업장 업종/업태 주소 등록 개발
-            </Typography>
-          </ListItem>
-          <ListItem>
-            <Typography
-              gutterBottom
-              variant="body2"
-              sx={{ fontWeight: "bold" }}
-            >
-              - 카카오톡 푸쉬 알림 카드 개발
+              - Style Component 라이브러리 사용
             </Typography>
           </ListItem>
         </List>
